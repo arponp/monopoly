@@ -1,4 +1,4 @@
-public interface Pieces {
+public interface Piece {
     String getName();
 
     void setOwner(String human);
