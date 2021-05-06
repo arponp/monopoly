@@ -1,8 +1,8 @@
-public class House extends SquareType {
+public class Property extends SquareType {
     private int price;
     private int rent;
 
-    public House(String name, int price, int rent) {
+    public Property(String name, int price, int rent) {
         setName(name);
         setTileType("Land");
         this.price = price;
