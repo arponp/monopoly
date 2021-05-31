@@ -8,6 +8,8 @@ public class Player implements Piece {
     private ArrayList<House> properties;
     private boolean inJail;
     private SquareType location;
+    private int row;
+    private int col;
 
     public Player(String name, int number, SquareType location) {
         this.name = name;
@@ -17,6 +19,8 @@ public class Player implements Piece {
         this.properties = new ArrayList<House>();
         this.inJail = false;
         this.location = location;
+        this.row = 8;
+        this.col = 8;
     }
 
     // getters
@@ -49,7 +53,23 @@ public class Player implements Piece {
         return location;
     }
 
+    public int getRow() {
+        return row;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
     // setters
+
+    public void setRow(int r) {
+        this.row = r;
+    }
+
+    public void setCol(int c) {
+        this.col = c;
+    }
 
     public void setOwner(String human) {
         this.name = human;
@@ -60,5 +80,9 @@ public class Player implements Piece {
     }
 
     // methods
+
+    public String toString() {
+        return "Player " + number;
+    }
 
 }
