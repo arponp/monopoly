@@ -32,13 +32,13 @@ public class Board {
         board[7][8] = new Land("Boardwalk", "purple", 400);
         board[8][8] = new Go();
         // bottom
-        board[8][7] = new Land("Mediterranian Avenue", "brown", 70);
+        board[8][7] = new Land("Mediterranian Avenue", "brown", 100);
         board[8][6] = new Chance();
-        board[8][5] = new Land("Baltic Avenue", "brown", 80);
+        board[8][5] = new Land("Baltic Avenue", "brown", 110);
         board[8][4] = new Railroad("D Railroad", 200, 20);
-        board[8][3] = new Land("Oriental Avenue", "sky blue", 100);
-        board[8][2] = new Land("Vermont Avenue", "sky blue", 100);
-        board[8][1] = new Land("Connecticut Avenue", "sky blue", 120);
+        board[8][3] = new Land("Oriental Avenue", "sky blue", 120);
+        board[8][2] = new Land("Vermont Avenue", "sky blue", 120);
+        board[8][1] = new Land("Connecticut Avenue", "sky blue", 130);
     }
 
     // getters
@@ -49,4 +49,75 @@ public class Board {
 
     // methods
 
+    public void print(Player p1, Player p2) {
+        for (int r = 0; r < board.length; r++) {
+            // print top line
+            for (int c = 0; c < board[r].length; c++) {
+                if (board[r][c] == null) {
+                    System.out.print("       ");
+                    continue;
+                }
+                System.out.print("|-----|");
+            }
+            System.out.println();
+            // print square name
+            for (int c = 0; c < board[r].length; c++) {
+                if (board[r][c] == null) {
+                    System.out.print("       ");
+                    continue;
+                }
+                if (board[r][c].getTileType().equals("land")) {
+                    Land s = (Land) board[r][c];
+                    System.out.print("| " + s.getCost() + " |");
+                } else if (board[r][c].getTileType().equals("railroad")) {
+                    System.out.print("|  R  |");
+                } else if (board[r][c].getTileType().equals("go to jail")) {
+                    System.out.print("| GTJ |");
+
+                } else {
+                    System.out.print("|  " + board[r][c].getName().substring(0, 1) + "  |");
+                }
+            }
+            System.out.println();
+            // print player one if on spot
+            for (int c = 0; c < board[r].length; c++) {
+                if (board[r][c] == null) {
+                    System.out.print("       ");
+                    continue;
+                }
+                if (p1.getLocation().getName().equals(board[r][c].getName())) {
+                    System.out.print("|  " + p1.getNumber() + "  |");
+                } else {
+                    System.out.print("|     |");
+                }
+
+            }
+            System.out.println();
+            // print player two if on spot
+            for (int c = 0; c < board[r].length; c++) {
+                if (board[r][c] == null) {
+                    System.out.print("       ");
+                    continue;
+                }
+                if (p2.getLocation().getName().equals(board[r][c].getName())) {
+                    System.out.print("|  " + p2.getNumber() + "  |");
+                } else {
+                    System.out.print("|     |");
+                }
+
+            }
+            System.out.println();
+            // print bottom line
+            for (int c = 0; c < board[r].length; c++) {
+                if (board[r][c] == null) {
+                    System.out.print("       ");
+                    continue;
+                }
+                System.out.print("|-----|");
+            }
+            System.out.println();
+        }
+        System.out.println(
+                "Legend:\nF: Free Parking\nR: Railroad\nL: Luxury Tax\nJ: Jail\nC: Chance\nGTJ: Go To Jail\n1: Player 1\n2: Player 2");
+    }
 }

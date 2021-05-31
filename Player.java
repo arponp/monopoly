@@ -9,13 +9,14 @@ public class Player implements Piece {
     private boolean inJail;
     private SquareType location;
 
-    public Player(String name, int number) {
+    public Player(String name, int number, SquareType location) {
         this.name = name;
         this.balance = 0;
         this.number = number;
         this.assets = new ArrayList<SquareType>();
         this.properties = new ArrayList<House>();
         this.inJail = false;
+        this.location = location;
     }
 
     // getters
