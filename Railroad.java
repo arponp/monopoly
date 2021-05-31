@@ -17,8 +17,4 @@ public class Railroad extends SquareType {
     public int getRent() {
         return rent;
     }
-
-    public String getName() {
-        return "R";
-    }
 }

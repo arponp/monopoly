@@ -10,10 +10,11 @@ public class Player implements Piece {
     private SquareType location;
     private int row;
     private int col;
+    private int jailFrees;
 
     public Player(String name, int number, SquareType location) {
         this.name = name;
-        this.balance = 0;
+        this.balance = 1500;
         this.number = number;
         this.assets = new ArrayList<SquareType>();
         this.properties = new ArrayList<House>();
@@ -21,6 +22,7 @@ public class Player implements Piece {
         this.location = location;
         this.row = 8;
         this.col = 8;
+        this.jailFrees = 0;
     }
 
     // getters
@@ -61,6 +63,9 @@ public class Player implements Piece {
         return col;
     }
 
+    public int getJailFrees() {
+        return jailFrees;
+    }
     // setters
 
     public void setRow(int r) {
@@ -79,6 +84,17 @@ public class Player implements Piece {
         location = square;
     }
 
+    public void setBalance(int b) {
+        balance = b;
+    }
+
+    public void setJailStatus(boolean b) {
+        this.inJail = b;
+    }
+
+    public void setJailFrees(int i) {
+        jailFrees = i;
+    }
     // methods
 
     public String toString() {

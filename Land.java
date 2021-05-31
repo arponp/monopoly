@@ -49,6 +49,6 @@ public class Land extends SquareType {
         } else if (properties.size() == 1) {
             return 40;
         }
-        return 0;
+        return 10;
     }
 }
