@@ -3,23 +3,21 @@ import java.util.ArrayList;
 public class Land extends SquareType {
     private int cost;
     private String color;
-    private ArrayList<House> properties;
+    private ArrayList<House> houses;
+    private ArrayList<Hotel> hotels;
 
     public Land(String name, String color, int cost) {
         setName(name);
         setTileType("land");
         this.color = color;
         this.cost = cost;
-        this.properties = new ArrayList<House>();
+        this.houses = new ArrayList<House>();
+        this.hotels = new ArrayList<Hotel>();
     }
 
     // getters
     public int getCost() {
         return cost;
-    }
-
-    public ArrayList<House> getProperties() {
-        return properties;
     }
 
     public String getColor() {
@@ -36,20 +34,24 @@ public class Land extends SquareType {
     }
 
     // methods
-    public boolean addProperty(House h) {
-        return properties.add(h);
+    public void addProperty() {
+        if (houses.size() == 3) {
+            houses.clear();
+            hotels.add(new Hotel());
+            System.out.println("4 houses removed. One hotel added.");
+            return;
+        }
+        System.out.println("One house added");
+        houses.add(new House());
     }
 
     public int getRent() {
-        if (properties.size() >= 4) {
-            return 100;
-        } else if (properties.size() == 3) {
-            return 80;
-        } else if (properties.size() == 2) {
-            return 60;
-        } else if (properties.size() == 1) {
-            return 40;
+        int totalRent = 0;
+        totalRent += (houses.size() * 50);
+        totalRent += (hotels.size() * 210);
+        if (totalRent == 0) {
+            totalRent = 20;
         }
-        return 10;
+        return totalRent;
     }
 }

@@ -7,16 +7,15 @@ public class Main {
         Player p2 = new Player("B", 2, board.getBoard()[8][8]);
         int pot = 0;
         boolean turn = true; // true = p1, false = p2
-        boolean winner = false;
         Scanner input = new Scanner(System.in);
 
         System.out.println("Welcome to Monopoly");
         board.printLegend();
         while (true) {
-            if (p1.getBalance() < 0 && p1.getAssets().size() == 0) {
+            if (p1.getBalance() <= 0 && p1.getAssets().size() == 0) {
                 System.out.println("Player 2 wins");
                 break;
-            } else if (p2.getBalance() < 0 && p2.getAssets().size() == 0) {
+            } else if (p2.getBalance() <= 0 && p2.getAssets().size() == 0) {
                 System.out.println("Player 1 wins");
                 break;
             }
@@ -145,7 +144,7 @@ public class Main {
                         } else {
                             p.setBalance(p.getBalance() - property.getCost());
                             board.getBoard()[p.getRow()][p.getCol()].setOwner(p.getNumber());
-                            p.addAsset(board.getBoard()[p.getRow()][p.getCol()]);
+                            System.out.println(p.addAsset(board.getBoard()[p.getRow()][p.getCol()]));
                             System.out.println("You have purchased: " + property.getName());
                             System.out.println("Your balance is now: $" + p.getBalance());
                         }
@@ -174,6 +173,7 @@ public class Main {
                         } else {
                             board.getBoard()[p.getRow()][p.getCol()].setOwner(p.getNumber());
                             p.addAsset(board.getBoard()[p.getRow()][p.getCol()]);
+                            p.setBalance(p.getBalance() - r.getCost());
                             System.out.println("You have purchased: " + r.getName());
                             System.out.println("Your balance is now: $" + p.getBalance());
                         }
@@ -195,9 +195,45 @@ public class Main {
             }
 
             // actions at end of turn
-            System.out.println("Would you like to take any actions?\n[1] yes\n[2] no");
-            int choice = input.nextInt();
-            input.nextLine();
+            while (true) {
+                System.out.println("Would you like to take any actions?\n[1] yes\n[2] no");
+                int choice = input.nextInt();
+                if (choice == 1) {
+                    // give options
+                    System.out.println(
+                            "Would you like to:\n[1] Buy houses\n[2] Sell houses\n[3] Sell properties\n[4] Cancel");
+                    int action = input.nextInt();
+                    input.nextLine();
+                    if (action == 1) {
+                        System.out.println("Where would you like to purchase a house?");
+                        for (int i = 0; i < p.getAssets().size(); i++) {
+                            if (p.getAssets().get(i).getTileType().equals("land")) {
+                                System.out.println("[" + i + "] " + p.getAssets().get(i).getName());
+                            }
+                        }
+                        int propertyNumb = input.nextInt();
+                        input.nextLine();
+                        // find property on board
+                        for (int r = 0; r < board.getBoard().length; r++) {
+                            for (int c = 0; c < board.getBoard()[r].length; c++) {
+                                if (board.getBoard()[r][c] != null) {
+                                    if (board.getBoard()[r][c].getName()
+                                            .equals(p.getAssets().get(propertyNumb).getName())) {
+                                        Land property = (Land) board.getBoard()[r][c];
+                                        property.addProperty();
+                                        p.setBalance(p.getBalance() - 100);
+                                        System.out.println("Your balance is now $" + p.getBalance());
+                                    }
+                                }
+                            }
+                        }
+                    } else if (action == 2) {
+
+                    }
+                } else {
+                    break;
+                }
+            }
             // change player
             if (!doubles)
                 turn = !turn;
