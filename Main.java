@@ -13,7 +13,11 @@ public class Main {
         System.out.println("Welcome to Monopoly");
         board.printLegend();
         while (true) {
-            if (winner) {
+            if (p1.getBalance() < 0 && p1.getAssets().size() == 0) {
+                System.out.println("Player 2 wins");
+                break;
+            } else if (p2.getBalance() < 0 && p2.getAssets().size() == 0) {
+                System.out.println("Player 1 wins");
                 break;
             }
             Player p;
@@ -26,6 +30,33 @@ public class Main {
             int roll2 = (int) (Math.random() * 6) + 1;
             int roll = roll1 + roll2;
             boolean doubles = roll1 == roll2;
+            boolean passedGo = false;
+            // check jail status
+            if ((p.getJailStatus() && !doubles) || (p.getJailStatus() && p.getJailFrees() == 0)) {
+                System.out.println("Player " + p.getNumber() + ": you are still in jail");
+                System.out.println("Would you like to pay $50 to get out of jail?\n[1] yes\n[2] no");
+                int choice = input.nextInt();
+                input.nextLine();
+                if (choice == 1) {
+                    if (p.getBalance() >= 50) {
+                        p.setBalance(p.getBalance() - 50);
+                        roll1 = (int) (Math.random() * 6) + 1;
+                        roll2 = (int) (Math.random() * 6) + 1;
+                        roll = roll1 + roll2;
+                    } else {
+                        turn = !turn;
+                        continue;
+                    }
+                } else {
+                    turn = !turn;
+                    continue;
+                }
+            }
+            if (p.getJailStatus() && p.getJailFrees() > 0) {
+                System.out.println("You used a get out jail free");
+                p.setJailStatus(false);
+                p.setJailFrees(p.getJailFrees() - 1);
+            }
             for (int i = 1; i <= roll; i++) {
                 if (p.getRow() == 8 && p.getCol() > 0) {
                     // moving left
@@ -40,11 +71,22 @@ public class Main {
                     // move down
                     p.setRow(p.getRow() + 1);
                 }
+                // checking if passed go
+                if (p.getRow() == 8 && p.getCol() == 8) {
+                    passedGo = true;
+                }
             }
 
             p.setLocation(board.getBoard()[p.getRow()][p.getCol()]); // set position after roll
 
             board.print(p1, p2);
+            // giving 200 if pass go
+
+            if (passedGo) {
+                System.out.println("You have passed go");
+                p.setBalance(p.getBalance() + 200);
+                System.out.println("Your balance is now $" + p.getBalance());
+            }
             System.out.print("Game:\n" + p + "'s turn\n"); // print player's turn
             System.out.println("You rolled a " + roll); // print roll total
             if (doubles)
@@ -84,6 +126,7 @@ public class Main {
                 System.out.println("You have $" + p.getBalance());
             } else if (p.getLocation().getTileType().equals("go to jail")) {
                 System.out.println("You have been sent to jail");
+                p.setJailStatus(true);
                 p.setRow(8);
                 p.setCol(0);
                 p.setLocation(board.getBoard()[p.getRow()][p.getCol()]); // set position after roll
@@ -98,10 +141,11 @@ public class Main {
                     if (choice == 1) { // player buys property
                         // check if player has sufficient funds
                         if (p.getBalance() < property.getCost()) {
-                            System.out.print("You cannot afford this property");
+                            System.out.println("You cannot afford this property");
                         } else {
                             p.setBalance(p.getBalance() - property.getCost());
                             board.getBoard()[p.getRow()][p.getCol()].setOwner(p.getNumber());
+                            p.addAsset(board.getBoard()[p.getRow()][p.getCol()]);
                             System.out.println("You have purchased: " + property.getName());
                             System.out.println("Your balance is now: $" + p.getBalance());
                         }
@@ -129,7 +173,9 @@ public class Main {
                             System.out.println("You cannot afford this railroad");
                         } else {
                             board.getBoard()[p.getRow()][p.getCol()].setOwner(p.getNumber());
+                            p.addAsset(board.getBoard()[p.getRow()][p.getCol()]);
                             System.out.println("You have purchased: " + r.getName());
+                            System.out.println("Your balance is now: $" + p.getBalance());
                         }
                     } else {
                         System.out.println("You have chose to not purchase this railroad.");
@@ -143,6 +189,8 @@ public class Main {
             } else if (p.getLocation().getTileType().equals("tax")) {
                 Tax t = (Tax) board.getBoard()[p.getRow()][p.getCol()];
                 System.out.println("You paid: $" + t.getCost() + " in tax");
+                pot += t.getCost();
+                p.setBalance(p.getBalance() - t.getCost());
                 System.out.println("Your balance is now: $" + p.getBalance());
             }
 

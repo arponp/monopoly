@@ -10,6 +10,7 @@ public class Land extends SquareType {
         setTileType("land");
         this.color = color;
         this.cost = cost;
+        this.properties = new ArrayList<House>();
     }
 
     // getters

@@ -101,4 +101,8 @@ public class Player implements Piece {
         return "Player " + number;
     }
 
+    public void addAsset(SquareType s) {
+        assets.add(s);
+    }
+
 }
