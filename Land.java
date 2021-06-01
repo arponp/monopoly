@@ -54,4 +54,11 @@ public class Land extends SquareType {
         }
         return totalRent;
     }
+
+    public int sellProperty() {
+        houses.clear();
+        hotels.clear();
+        setOwner(0);
+        return (houses.size() * 25) + (hotels.size() * 105) + (cost / 2);
+    }
 }
