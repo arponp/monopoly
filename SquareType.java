@@ -31,4 +31,8 @@ public abstract class SquareType {
         this.owner = owner;
     }
 
+    public int sell() {
+        return 0;
+    }
+
 }

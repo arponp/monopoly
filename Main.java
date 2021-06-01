@@ -200,8 +200,7 @@ public class Main {
                 int choice = input.nextInt();
                 if (choice == 1) {
                     // give options
-                    System.out.println(
-                            "Would you like to:\n[1] Buy houses\n[2] Sell houses\n[3] Sell properties\n[4] Cancel");
+                    System.out.println("Would you like to:\n[1] Buy houses\n[2] Sell assets\n[3] Cancel");
                     int action = input.nextInt();
                     input.nextLine();
                     if (action == 1) {
@@ -228,7 +227,27 @@ public class Main {
                             }
                         }
                     } else if (action == 2) {
-
+                        System.out.println("Which property would you like to sell?");
+                        for (int i = 0; i < p.getAssets().size(); i++) {
+                            System.out.println("[" + i + "] " + p.getAssets().get(i).getName());
+                        }
+                        int propertyNumb = input.nextInt();
+                        input.nextLine();
+                        // find property on board
+                        for (int r = 0; r < board.getBoard().length; r++) {
+                            for (int c = 0; c < board.getBoard()[r].length; c++) {
+                                if (board.getBoard()[r][c] != null) {
+                                    if (board.getBoard()[r][c].getName()
+                                            .equals(p.getAssets().get(propertyNumb).getName())) {
+                                        int sale = board.getBoard()[r][c].sell();
+                                        p.setBalance(p.getBalance() + sale);
+                                        p.removeAsset(propertyNumb);
+                                        System.out.println("Your balance is now $" + p.getBalance());
+                                        break;
+                                    }
+                                }
+                            }
+                        }
                     }
                 } else {
                     break;

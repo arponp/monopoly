@@ -5,7 +5,6 @@ public class Player implements Piece {
     private int number;
     private int balance;
     private ArrayList<SquareType> assets;
-    private ArrayList<House> properties;
     private boolean inJail;
     private SquareType location;
     private int row;
@@ -17,7 +16,6 @@ public class Player implements Piece {
         this.balance = 1500;
         this.number = number;
         this.assets = new ArrayList<SquareType>();
-        this.properties = new ArrayList<House>();
         this.inJail = false;
         this.location = location;
         this.row = 8;
@@ -41,10 +39,6 @@ public class Player implements Piece {
 
     public ArrayList<SquareType> getAssets() {
         return this.assets;
-    }
-
-    public ArrayList<House> getProperties() {
-        return this.properties;
     }
 
     public boolean getJailStatus() {
@@ -103,6 +97,10 @@ public class Player implements Piece {
 
     public boolean addAsset(SquareType s) {
         return assets.add(s);
+    }
+
+    public void removeAsset(int i) {
+        assets.remove(i);
     }
 
 }

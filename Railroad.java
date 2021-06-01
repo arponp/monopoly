@@ -17,4 +17,12 @@ public class Railroad extends SquareType {
     public int getRent() {
         return rent;
     }
+
+    // sell
+
+    public int sell() {
+        setOwner(0);
+        System.out.println("You sold this railroad for $" + (cost / 2));
+        return cost / 2;
+    }
 }

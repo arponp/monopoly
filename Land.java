@@ -55,10 +55,12 @@ public class Land extends SquareType {
         return totalRent;
     }
 
-    public int sellProperty() {
+    public int sell() {
         houses.clear();
         hotels.clear();
         setOwner(0);
+        System.out
+                .println("You sold this property for: $" + ((houses.size() * 25) + (hotels.size() * 105) + (cost / 2)));
         return (houses.size() * 25) + (hotels.size() * 105) + (cost / 2);
     }
 }
